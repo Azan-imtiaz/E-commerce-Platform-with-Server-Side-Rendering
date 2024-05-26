@@ -1,18 +1,19 @@
 const mongoose=require("mongoose");
+const product = require("./productSchema");
 
-const userSchema=mongoose.Schema({
+const ownerSchema=mongoose.Schema({
 
     fullName:String,
     email:String,
     password :String,
     cart :[],     //one way of defining array
     isAdmin: Boolean,
-    orders:{       
+    products:{       
   type:Array,     //second  way of defining array       
   default:[]
     },
-    contact:Number,
+    gstn:String,
     picture:String
 })
 
-module.exports=mongoose.model("user",userSchema);
+module.exports=mongoose.model("owner",ownerSchema);
