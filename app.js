@@ -1,9 +1,10 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const db = require("./config/mongooseConnection");
-// console.log(db);
+
 
 const ownersRouter = require("./routes/ownersRouter");
 const productsRouter = require("./routes/productsRouter");

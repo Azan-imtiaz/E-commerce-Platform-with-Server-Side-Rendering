@@ -1,8 +1,10 @@
 const mongoose=require("mongoose");
+const dbgr=require("debug")("development:mongoose");
+const config=require("config");   //package
 
-mongoose.connect("mongodb+srv://azanimtiaz43:T9uv2ixNE79tvHFX@cluster0.vfvefyj.mongodb.net/BackendProjectMern?retryWrites=true&w=majority")
+mongoose.connect(`${config.get("MONGODB_URL")}`)
 .then(()=>{
-    console.log("Connected to Mongodb");
+    dbgr("Connected to Mongodb");
 }).catch((err)=>{
     console.log(`Error in connected to database : ${err}`);
 })

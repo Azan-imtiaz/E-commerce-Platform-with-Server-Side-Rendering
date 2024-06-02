@@ -18,5 +18,9 @@ Product  model
    text color
 
 
+Part 4 
+
+   first thing debugger we study(npm i debug)
+
    
 
