@@ -1,9 +1,17 @@
+const express = require("express");
 
-const express=require("express");
+const router = express.Router();
 
-const router=express.Router();
-router.get("/",(req,res)=>{
+const {userRegister,userLogin}=require("../controllers/authControllers");
+
+
+router.get("/", (req, res) => {
+
     res.send("hey");
+
 })
 
-module.exports=router;
+router.post("/register",userRegister);
+router.post("/login",userLogin);
+
+module.exports = router;

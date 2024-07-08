@@ -1,5 +1,6 @@
 const mongoose=require("mongoose");
-const product = require("./productSchema");
+
+
 
 const ownerSchema=mongoose.Schema({
 

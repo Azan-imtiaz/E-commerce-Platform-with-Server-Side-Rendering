@@ -6,7 +6,6 @@ const userSchema=mongoose.Schema({
     email:String,
     password :String,
     cart :[],     //one way of defining array
-    isAdmin: Boolean,
     orders:{       
   type:Array,     //second  way of defining array       
   default:[]

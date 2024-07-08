@@ -22,5 +22,15 @@ Part 4
 
    first thing debugger we study(npm i debug)
 
+   How to use config instead of .env file extension .json used
+
+
+   /-? signup  or login
+   /shop -> shop
+   /users/cart ->cart
+   /admin->admin panel
+   /owner/products->show all products
+   /owner/admin->show admin panel to create products
    
+      
 
