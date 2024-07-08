@@ -2,6 +2,7 @@ const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { generateToken } = require("../utils/generateToken");
+const productModel =require("../models/productModel")
 
 // User registration
 module.exports.userRegister = async function (req, res) {
@@ -49,9 +50,10 @@ module.exports.userLogin = async function (req, res) {
             const token = generateToken(user);
             res.cookie('token', token);
 
-            return res.render('index', { error: null, successMessage: "Login Successful" });
+            const products=await productModel.find();
+            return res.render('shop', { products });
         } else {
-            return res.render('index', { error: "Email or password is incorrect", successMessage: null });
+            return res.render('index', { error: "Email or password is incorrect", successMessage: null,loggedIn:false });
         }
     } catch (err) {
         console.error(err.message);
@@ -62,5 +64,5 @@ module.exports.userLogin = async function (req, res) {
 // User logout
 module.exports.userLogout = function (req, res) {
     res.clearCookie('token');
-    return res.render('index', { error: null, successMessage: "Logout Successful" });
+    return res.render('index', { error: null, successMessage: "Logout Successful",loggedIn:false });
 };

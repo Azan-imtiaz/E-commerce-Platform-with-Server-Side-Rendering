@@ -5,16 +5,30 @@ const productModel = require("../models/productModel");
 const  router=express.Router();
 
 router.get("/",function(req,res){
-    const error=req.flash("error");
-    console.log(error);
+    let error=req.flash("error");
+    
 
-    res.render('index', { error:error ,successMessage:null});
+    if(error.length == 0){
+        error=null;
+    }
+
+    res.render('index', { error:error ,successMessage:null,loggedIn:false});
 })
 
-router.get("/shop",isLoggedIn,async function(req,res){
-    const products=await productModel.find();
-    res.render("shop",{products});
-})
-
-
+// router.get("/shop",isLoggedIn,async function(req,res){
+//     const products=await productModel.find();
+//     res.render("shop",{products});
+// })
+router.get('/shop', isLoggedIn, async (req, res) => {
+    try {
+        const startTime = Date.now();
+        
+        // Fetch all fields for products
+        const products = await productModel.find({}).lean(); // Use lean() for better performance
+        res.render('shop', { products });
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 module.exports=router;
