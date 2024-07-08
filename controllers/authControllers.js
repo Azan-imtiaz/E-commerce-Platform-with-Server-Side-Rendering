@@ -2,49 +2,65 @@ const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { generateToken } = require("../utils/generateToken");
+
+// User registration
 module.exports.userRegister = async function (req, res) {
     try {
-        let { email, password, fullname } = req.body;
-        const result = await userModel.find({ email: email })
-        if (result && result.length > 0) {
-            return res.status(401).send("You already have an Account Please login");
+        const { email, password, fullname } = req.body;
+
+        // Check if user already exists
+        const existingUser = await userModel.findOne({ email: email });
+        if (existingUser) {
+            return res.render('index', { error: "You already have an account", successMessage: null });
         }
+
+        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
-        let user = await userModel.create({
-            email: email, password: hashedPassword, fullName: fullname
+
+        // Create new user
+        const newUser = await userModel.create({
+            email: email,
+            password: hashedPassword,
+            fullName: fullname
         });
 
-        res.send("User created successfully");
+        return res.render('index', { error: null, successMessage: "User Created Successfully" });
+    } catch (err) {
+        console.error(err.message);
+        return res.render('index', { error: "Something Went Wrong", successMessage: null });
     }
-
-    catch (err) {
-        console.log(err.message);
-        res.send(err.message);
-
-    }
-
 };
 
-
-
- module.exports.userLogin = async function (req, res) {
+// User login
+module.exports.userLogin = async function (req, res) {
     try {
         const { email, password } = req.body;
+
+        // Check if user exists
         const user = await userModel.findOne({ email: email });
-        if (!user) return res.send("Email or password is incorect");
-        const result = await bcrypt.compare(password,user.password);
-        if (result) {
+        if (!user) {
+            return res.render('index', { error: "Email or password is incorrect", successMessage: null });
+        }
+
+        // Compare passwords
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (passwordMatch) {
+            // Generate JWT token
             const token = generateToken(user);
             res.cookie('token', token);
-            return res.send("login succesfully");
-        }
-     
-            return res.send("Email or Password is Incorect");
-    
-    }
-    catch (err) {
-        console.log(err.message);
-        res.send(err.message);
-    }
 
-}
+            return res.render('index', { error: null, successMessage: "Login Successful" });
+        } else {
+            return res.render('index', { error: "Email or password is incorrect", successMessage: null });
+        }
+    } catch (err) {
+        console.error(err.message);
+        return res.render('index', { error: "Something went wrong", successMessage: null });
+    }
+};
+
+// User logout
+module.exports.userLogout = function (req, res) {
+    res.clearCookie('token');
+    return res.render('index', { error: null, successMessage: "Logout Successful" });
+};

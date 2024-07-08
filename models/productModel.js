@@ -2,19 +2,19 @@ const mongoose=require("mongoose");
 
 
 const prudoctSchema=mongoose.Schema({
-    image:String,
+    image:Buffer,
     name:String,
     price:Number,
     discount:{
         type:Number,
         default:0
     },
-    bgColor:String,
-    panelColor:String,
-    textColor:String
+    bgcolor:String,
+    panelcolor:String,
+    textcolor:String
 });
 
 
-const product=mongoose.model("product",prudoctSchema);
+const productModel=mongoose.model("product",prudoctSchema);
 
-module.exports=product;
+module.exports=productModel;

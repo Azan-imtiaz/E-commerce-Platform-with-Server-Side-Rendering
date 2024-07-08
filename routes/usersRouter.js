@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const {userRegister,userLogin}=require("../controllers/authControllers");
+const {userRegister,userLogin,userLogout}=require("../controllers/authControllers");
 
 
 router.get("/", (req, res) => {
@@ -13,5 +13,6 @@ router.get("/", (req, res) => {
 
 router.post("/register",userRegister);
 router.post("/login",userLogin);
+router.get("/logout",userLogout);
 
 module.exports = router;

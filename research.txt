@@ -34,3 +34,5 @@ Part 4
    
       
 
+in product in multer we are using memory storage instead of disk storage 
+
