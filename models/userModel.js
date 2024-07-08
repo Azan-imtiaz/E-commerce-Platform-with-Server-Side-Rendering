@@ -5,7 +5,10 @@ const userSchema=mongoose.Schema({
     fullName:String,
     email:String,
     password :String,
-    cart :[],     //one way of defining array
+    cart :[        //for storing the product id
+     { type:mongoose.Schema.Types.ObjectId,
+      ref:"product"   }
+    ],     //one way of defining array
     orders:{       
   type:Array,     //second  way of defining array       
   default:[]
