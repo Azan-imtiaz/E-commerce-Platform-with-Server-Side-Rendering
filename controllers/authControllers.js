@@ -12,7 +12,7 @@ module.exports.userRegister = async function (req, res) {
         // Check if user already exists
         const existingUser = await userModel.findOne({ email: email });
         if (existingUser) {
-            return res.render('index', { error: "You already have an account", successMessage: null });
+            return res.render('index', { error: "You already have an account", successMessage: null,loggedIn:false });
         }
 
         // Hash the password
@@ -25,10 +25,10 @@ module.exports.userRegister = async function (req, res) {
             fullName: fullname
         });
 
-        return res.render('index', { error: null, successMessage: "User Created Successfully" });
+        return res.render('index', { error: null, successMessage: "User Created Successfully" ,loggedIn:false});
     } catch (err) {
         console.error(err.message);
-        return res.render('index', { error: "Something Went Wrong", successMessage: null });
+        return res.render('index', { error: "Something Went Wrong", successMessage: null,loggedIn:false });
     }
 };
 
@@ -51,7 +51,7 @@ module.exports.userLogin = async function (req, res) {
             res.cookie('token', token);
 
             const products=await productModel.find();
-            return res.render('shop', { products });
+            return res.render('shop', { products ,successMessage: null});
         } else {
             return res.render('index', { error: "Email or password is incorrect", successMessage: null,loggedIn:false });
         }
