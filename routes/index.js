@@ -15,12 +15,8 @@ router.get("/",function(req,res){
     res.render('index', { error:error ,successMessage:null,loggedIn:false});
 })
 
-// router.get("/shop",isLoggedIn,async function(req,res){
-//     const products=await productModel.find();
-//     res.render("shop",{products});
-// })
 router.get('/shop', isLoggedIn, async (req, res) => {
-    try {
+    try { 
    
        let message=req.flash("successMessage");
         // Fetch all fields for products
